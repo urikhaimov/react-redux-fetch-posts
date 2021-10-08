@@ -1,0 +1,8 @@
+.post-excerpt {
+    margin: 10px;
+    width: 50vw;
+    border: 1px solid green;
+    font-size: 12px;
+    padding: 10px;
+    text-align: left;
+}
