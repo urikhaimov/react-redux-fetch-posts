@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllPosts, fetchPosts } from './../../features/posts/postsSlice';
 import PostExcerpt from './../Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import {fetchTranslated} from '../../features/translator/translatorSlice'
 const PostsList = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
@@ -18,12 +18,16 @@ const PostsList = () => {
     setTimeout(() => {
       dispatch(fetchPosts())
       setItems(items.concat(posts));
+      
+    
+     
     }, 1500);
   };
   useEffect(() => {
     if (postStatus === 'idle') {
       dispatch(fetchPosts())
     }
+    dispatch(fetchTranslated())
     setItems(posts)
 
   }, [postStatus, dispatch])
