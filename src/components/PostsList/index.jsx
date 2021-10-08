@@ -5,6 +5,7 @@ import PostExcerpt from './../Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const PostsList = () => {
+  const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts)
   console.log('posts', posts)
@@ -13,16 +14,18 @@ const PostsList = () => {
   const fetchMoreData = () => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
+    console.log('fetch')
     setTimeout(() => {
-     
-        posts =  posts.concat(Array.from({ length: 20 }))
-     
+      dispatch(fetchPosts())
+      setItems(items.concat(posts));
     }, 1500);
   };
   useEffect(() => {
     if (postStatus === 'idle') {
       dispatch(fetchPosts())
     }
+    setItems(posts)
+
   }, [postStatus, dispatch])
 
   let content
@@ -31,35 +34,29 @@ const PostsList = () => {
     content = <div text="Loading..." />
   } else if (postStatus === 'succeeded') {
     content =
-      <div
-        id="scrollableDiv"
-        style={{
-          height: '90vh',
-          overflow: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
+
+
+      <InfiniteScroll
+        dataLength={items.length}
+        next={fetchMoreData}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
       >
-      
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchMoreData}
-          style={{ display: 'flex', flexDirection: 'column' }} //To put endMessage and loader to the top.
-          inverse={true} //
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-         
-        >
-          {posts.map((post) => (
-            <PostExcerpt key={post.id} post={post} />
-          ))}
-        </InfiniteScroll>
-      </div>
+        {posts.map((post, index) => (
+          <PostExcerpt key={index} post={post} />
+        ))}
+
+        {/* {items.map((i, index) => (
+          <div key={index}>
+            div - #{index}
+          </div>
+        ))} */}
+      </InfiniteScroll>
 
   } else if (postStatus === 'failed') {
     content = <div>{error}</div>
   }
- 
+
   return (<section className="posts-list">
     <h2>Posts</h2>
     {content}
