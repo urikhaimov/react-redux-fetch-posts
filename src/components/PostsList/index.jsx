@@ -28,9 +28,14 @@ const PostsList = () => {
     const trPosts = getTranslatedPosts(posts, data);
     console.log('trPosts', trPosts)
     // dispatch(fetchTranslated(data, 'de'))
+   
+  }, [postStatus, dispatch])
+
+
+  useEffect(() => {
     setItems(posts.slice(0, 6))
 
-  }, [postStatus, dispatch])
+  }, [setItems, posts])
 
   let content
 
