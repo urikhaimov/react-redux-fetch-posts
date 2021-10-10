@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllPosts, fetchPosts } from './../../features/posts/postsSlice';
 import PostExcerpt from './../Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {fetchTranslated} from '../../features/translator/translatorSlice'
+import { selectAllTranslatedPosts, setDataToTranslate, fetchTranslated, getTranslatedPosts } from '../../features/translator/translatorSlice'
 const PostsList = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
@@ -14,20 +14,24 @@ const PostsList = () => {
   const fetchMoreData = () => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
-    console.log('fetch')
+
+
     setTimeout(() => {
       dispatch(fetchPosts())
       setItems(items.concat(posts));
-      
-    
-     
+
+
+
     }, 1500);
   };
   useEffect(() => {
     if (postStatus === 'idle') {
       dispatch(fetchPosts())
     }
-    dispatch(fetchTranslated())
+    const data = setDataToTranslate(posts);
+    const trPosts = getTranslatedPosts(posts, data);
+    console.log('trPosts', trPosts)
+   // dispatch(fetchTranslated(data, 'de'))
     setItems(posts)
 
   }, [postStatus, dispatch])
