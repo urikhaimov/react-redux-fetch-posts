@@ -10,18 +10,14 @@ const PostsList = () => {
   const posts = useSelector(selectAllPosts)
   console.log('posts', posts)
   const postStatus = useSelector(state => state.posts.status)
-  const error = useSelector(state => state.posts.error)
+  const error = useSelector(state => state.posts.error);
+
   const fetchMoreData = () => {
     // a fake async api call like which sends
-    // 20 more records in 1.5 secs
-
-
+    // 5 more records in 1.5 secs
     setTimeout(() => {
-      dispatch(fetchPosts())
-      setItems(items.concat(posts));
-
-
-
+      const length = items.length;
+      setItems(items.concat(posts.slice(length, length + 5)));
     }, 1500);
   };
   useEffect(() => {
@@ -31,8 +27,8 @@ const PostsList = () => {
     const data = setDataToTranslate(posts);
     const trPosts = getTranslatedPosts(posts, data);
     console.log('trPosts', trPosts)
-   // dispatch(fetchTranslated(data, 'de'))
-    setItems(posts)
+    // dispatch(fetchTranslated(data, 'de'))
+    setItems(posts.slice(0, 6))
 
   }, [postStatus, dispatch])
 
@@ -50,15 +46,10 @@ const PostsList = () => {
         hasMore={true}
         loader={<h4>Loading...</h4>}
       >
-        {posts.map((post, index) => (
+        {items.map((post, index) => (
           <PostExcerpt key={index} post={post} />
         ))}
 
-        {/* {items.map((i, index) => (
-          <div key={index}>
-            div - #{index}
-          </div>
-        ))} */}
       </InfiniteScroll>
 
   } else if (postStatus === 'failed') {
