@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export const fetchTranslated = createAsyncThunk('translator/fetchTranslated', async (data, language) => {
-    console.log('data infect', data)
+    console.log('data infect', data.length)
     let subscriptionKey = "083f98b1ea1e49bcbadc13de4616d9a8";
     let endpoint = "https://api.cognitive.microsofttranslator.com";
     let location = "centralus";
@@ -24,8 +24,8 @@ export const fetchTranslated = createAsyncThunk('translator/fetchTranslated', as
         },
         params: {
             'api-version': '3.0',
-            'from': '',
-            'to': ['de', 'it']
+            'from': 'en',
+            'to': 'de'
         },
         data: data,
         responseType: 'json'
@@ -90,10 +90,13 @@ export const selectTranslatedPostById = (state, postId) =>
     state.posts.translatedPosts.find(post => post.id === postId);
 
 export const setDataToTranslate = (posts) => {
-    let data = [];
+    let data = {
+        'titles':[],
+        'bodies':[]
+    }
     posts.forEach(element => {
-        data.push({ 'text': element.title });
-        data.push({ 'text': element.body });
+        data['titles'].push({ 'text': element.title });
+        data['bodies'].push({ 'text': element.body });
     });
     return data;
 }
@@ -102,8 +105,8 @@ export const setDataToTranslate = (posts) => {
 export const getTranslatedPosts = (posts, data) => {
     return posts.map((post, index) => ({
         ...post,
-        title: data[index].text,
-        body: data[index + 1].text
+        title: data['titles'][index].text,
+        body: data['bodies'][index + 1].text
     }));
 }
 

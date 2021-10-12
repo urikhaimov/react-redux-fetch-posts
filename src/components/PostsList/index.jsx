@@ -24,11 +24,16 @@ const PostsList = () => {
     if (postStatus === 'idle') {
       dispatch(fetchPosts())
     }
-    const data = setDataToTranslate(posts);
-    const trPosts = getTranslatedPosts(posts, data);
-    console.log('trPosts', trPosts)
-    // dispatch(fetchTranslated(data, 'de'))
-   
+
+    if (postStatus == 'succeeded') {
+      const data = setDataToTranslate(posts);
+      //const trPosts = getTranslatedPosts(posts, data);
+      dispatch(fetchTranslated(data['titles'], 'en'));
+      dispatch(fetchTranslated(data['bodies'].slice(0, 50), 'en'));
+      dispatch(fetchTranslated(data['bodies'].slice(50), 'en'));
+    }
+
+
   }, [postStatus, dispatch])
 
 
