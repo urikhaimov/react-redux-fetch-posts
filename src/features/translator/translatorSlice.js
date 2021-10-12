@@ -89,7 +89,8 @@ export const getTranslatedPosts = (posts, data) => {
     return posts.map((post, index) => ({
         ...post,
         title: titles[index].translations[0].text,
-        body: bodies[index].translations[0].text
+        body: bodies[index].translations[0].text,
+        rate: 0
     }));
 
 }

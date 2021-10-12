@@ -1,11 +1,24 @@
 
-import './styles.css'
+import React, { useEffect } from 'react';
+import { Counter } from '../../features/counter/Counter';
+import { useSelector } from 'react-redux';
+import { selectCount } from '../../features/counter/counterSlice'
+
+import styles from './Post.module.css';
+
 
 const PostExcerpt = ({ post }) => {
+    const count = useSelector(selectCount);
+    console.log('count', count)
+    useEffect(() => {
+
+
+    }, [count])
     return (
-        <article className="post-excerpt" key={post.id}>
+        <article className={styles.post} key={post.id}>
             <h3>{post.title}</h3>
-            <p className="post-content">{post.body.substring(0, 100)}</p>
+            <p >{post.body.substring(0, 100)}</p>
+            <Counter />
         </article>
     )
 }

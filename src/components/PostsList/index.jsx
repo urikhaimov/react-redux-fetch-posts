@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllPosts, fetchPosts } from './../../features/posts/postsSlice';
 import PostExcerpt from './../Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
+
 import {
   selectAllTranslatedPosts,
   setDataToTranslate,
@@ -10,15 +11,17 @@ import {
   getTranslatedPosts
 } from '../../features/translator/translatorSlice';
 
-
+import {selectCurrentLanguage} from '../../features/selectLanguage/selectLanguageSlice';
 const PostsList = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
   const translatedPosts = useSelector(selectAllTranslatedPosts)
-  //console.log('translatedPosts', translatedPosts)
   const postStatus = useSelector(state => state.posts.status)
   const error = useSelector(state => state.posts.error);
+
+  const lang = useSelector(selectCurrentLanguage);
+  console.log('lang', lang)
 
   const fetchMoreData = () => {
     // a fake async api call like which sends
@@ -39,22 +42,22 @@ const PostsList = () => {
       dispatch(fetchTranslated({
         data: data['titles'],
         fromLanguage: 'en',
-        toLanguage: 'de'
+        toLanguage: lang
       }));
 
       dispatch(fetchTranslated({
         data: data['bodies'].slice(0, middleIndex),
         fromLanguage: 'en',
-        toLanguage: 'de'
+        toLanguage:lang
       }));
 
       dispatch(fetchTranslated({
         data: data['bodies'].slice(middleIndex),
         fromLanguage: 'en',
-        toLanguage: 'de'
+        toLanguage: lang
       }));
     }
-  }, [postStatus, dispatch])
+  }, [postStatus, dispatch, lang])
 
 
   useEffect(() => {
