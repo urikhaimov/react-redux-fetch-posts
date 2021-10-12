@@ -3,13 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllPosts, fetchPosts } from './../../features/posts/postsSlice';
 import PostExcerpt from './../Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { selectAllTranslatedPosts, setDataToTranslate, fetchTranslated } from '../../features/translator/translatorSlice'
+import {
+  selectAllTranslatedPosts,
+  setDataToTranslate,
+  fetchTranslated,
+  getTranslatedPosts
+} from '../../features/translator/translatorSlice';
+
+
 const PostsList = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
   const translatedPosts = useSelector(selectAllTranslatedPosts)
-  console.log('translatedPosts', translatedPosts)
+  //console.log('translatedPosts', translatedPosts)
   const postStatus = useSelector(state => state.posts.status)
   const error = useSelector(state => state.posts.error);
 
@@ -22,6 +29,7 @@ const PostsList = () => {
     }, 1500);
   };
   useEffect(() => {
+    const middleIndex = Math.floor(posts.length / 2);
     if (postStatus === 'idle') {
       dispatch(fetchPosts())
     }
@@ -35,26 +43,28 @@ const PostsList = () => {
       }));
 
       dispatch(fetchTranslated({
-        data: data['bodies'].slice(0, 50),
+        data: data['bodies'].slice(0, middleIndex),
         fromLanguage: 'en',
         toLanguage: 'de'
       }));
 
       dispatch(fetchTranslated({
-        data: data['bodies'].slice(50),
+        data: data['bodies'].slice(middleIndex),
         fromLanguage: 'en',
         toLanguage: 'de'
       }));
     }
-
-
   }, [postStatus, dispatch])
 
 
   useEffect(() => {
-    setItems(posts.slice(0, 6))
+    let translatedItems = [];
+    if (posts.length * 2 === translatedPosts.length && translatedPosts.length > 0) {
+      translatedItems = getTranslatedPosts(posts, translatedPosts);
+    }
+    setItems(translatedItems.slice(0, 6));
 
-  }, [setItems, posts])
+  }, [setItems, translatedPosts, posts])
 
   let content
 

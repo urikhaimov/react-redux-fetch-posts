@@ -2,11 +2,6 @@
 import axios from 'axios';
 
 const { v4: uuidv4 } = require('uuid');
-const initialState = {
-    translatedPosts: [],
-    status: 'idle',
-    error: null
-}
 
 export function fetchTranslatedPosts(data, from, to) {
     let subscriptionKey = "083f98b1ea1e49bcbadc13de4616d9a8";

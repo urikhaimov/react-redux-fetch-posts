@@ -50,8 +50,6 @@ const translatorSlice = createSlice({
             .addCase(fetchTranslated.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 // Add any fetched posts to the array
-                console.log('state', state.translatedPosts)
-                console.log('action', action.payload)
                 state.translatedPosts = state.translatedPosts.concat(action.payload)
             })
             .addCase(fetchTranslated.rejected, (state, action) => {
@@ -84,10 +82,15 @@ export const setDataToTranslate = (posts) => {
 
 
 export const getTranslatedPosts = (posts, data) => {
+    const middleIndex = Math.floor(data.length / 2);
+    const titles = data.slice(0,middleIndex);
+    const bodies = data.slice(middleIndex);
+
     return posts.map((post, index) => ({
         ...post,
-        title: data['titles'][index].text,
-        body: data['bodies'][index].text
+        title: titles[index].translations[0].text,
+        body: bodies[index].translations[0].text
     }));
+
 }
 
