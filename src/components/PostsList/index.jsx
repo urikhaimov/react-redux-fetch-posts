@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllPosts, fetchPosts } from './../../features/posts/postsSlice';
 import PostExcerpt from './../Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { selectAllTranslatedPosts, setDataToTranslate, fetchTranslated, getTranslatedPosts } from '../../features/translator/translatorSlice'
+import { selectAllTranslatedPosts, setDataToTranslate, fetchTranslated } from '../../features/translator/translatorSlice'
 const PostsList = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
-  const posts = useSelector(selectAllPosts)
-  console.log('posts', posts)
+  const posts = useSelector(selectAllPosts);
+  const translatedPosts = useSelector(selectAllTranslatedPosts)
+  console.log('translatedPosts', translatedPosts)
   const postStatus = useSelector(state => state.posts.status)
   const error = useSelector(state => state.posts.error);
 
@@ -25,12 +26,25 @@ const PostsList = () => {
       dispatch(fetchPosts())
     }
 
-    if (postStatus == 'succeeded') {
+    if (postStatus === 'succeeded') {
       const data = setDataToTranslate(posts);
-      //const trPosts = getTranslatedPosts(posts, data);
-      dispatch(fetchTranslated(data['titles'], 'en'));
-      dispatch(fetchTranslated(data['bodies'].slice(0, 50), 'en'));
-      dispatch(fetchTranslated(data['bodies'].slice(50), 'en'));
+      dispatch(fetchTranslated({
+        data: data['titles'],
+        fromLanguage: 'en',
+        toLanguage: 'de'
+      }));
+
+      dispatch(fetchTranslated({
+        data: data['bodies'].slice(0, 50),
+        fromLanguage: 'en',
+        toLanguage: 'de'
+      }));
+
+      dispatch(fetchTranslated({
+        data: data['bodies'].slice(50),
+        fromLanguage: 'en',
+        toLanguage: 'de'
+      }));
     }
 
 

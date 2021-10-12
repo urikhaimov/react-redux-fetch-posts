@@ -1,37 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios';
-const { v4: uuidv4 } = require('uuid');
+import { fetchTranslatedPosts } from './translatorAPI';
+
+
 const initialState = {
-    data: "",
+    translatedPosts: [],
     status: 'idle',
     error: null
 }
 
-export const fetchTranslated = createAsyncThunk('translator/fetchTranslated', async (data, language) => {
-    console.log('data infect', data.length)
-    let subscriptionKey = "083f98b1ea1e49bcbadc13de4616d9a8";
-    let endpoint = "https://api.cognitive.microsofttranslator.com";
-    let location = "centralus";
-    axios({
-        baseURL: endpoint,
-        url: '/translate',
-        method: 'post',
-        headers: {
-            'Ocp-Apim-Subscription-Key': subscriptionKey,
-            'Ocp-Apim-Subscription-Region': location,
-            'Content-type': 'application/json',
-            'X-ClientTraceId': uuidv4().toString()
-        },
-        params: {
-            'api-version': '3.0',
-            'from': 'en',
-            'to': 'de'
-        },
-        data: data,
-        responseType: 'json'
-    }).then(function (response) {
-        console.log(JSON.stringify(response.data, null, 4));
-    })
+export const fetchTranslated = createAsyncThunk('translator/fetchTranslated', async (data) => {
+    const response = await fetchTranslatedPosts(data.data, data.fromLanguage, data.toLanguage)
+    return response.data
 });
 
 
@@ -71,7 +50,9 @@ const translatorSlice = createSlice({
             .addCase(fetchTranslated.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 // Add any fetched posts to the array
-                state.posts = state.posts.concat(action.payload)
+                console.log('state', state.translatedPosts)
+                console.log('action', action.payload)
+                state.translatedPosts = state.translatedPosts.concat(action.payload)
             })
             .addCase(fetchTranslated.rejected, (state, action) => {
                 state.status = 'failed'
@@ -84,15 +65,15 @@ export const { postAdded, postUpdated, reactionAdded } = translatorSlice.actions
 
 export default translatorSlice.reducer
 
-export const selectAllTranslatedPosts = state => state.posts.translatedPosts
+export const selectAllTranslatedPosts = state => state.translatedPosts.translatedPosts
 
 export const selectTranslatedPostById = (state, postId) =>
-    state.posts.translatedPosts.find(post => post.id === postId);
+    state.translatedPosts.translatedPosts.find(post => post.id === postId);
 
 export const setDataToTranslate = (posts) => {
     let data = {
-        'titles':[],
-        'bodies':[]
+        'titles': [],
+        'bodies': []
     }
     posts.forEach(element => {
         data['titles'].push({ 'text': element.title });
@@ -106,7 +87,7 @@ export const getTranslatedPosts = (posts, data) => {
     return posts.map((post, index) => ({
         ...post,
         title: data['titles'][index].text,
-        body: data['bodies'][index + 1].text
+        body: data['bodies'][index].text
     }));
 }
 
