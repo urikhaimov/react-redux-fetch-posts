@@ -18,6 +18,9 @@ const translatorSlice = createSlice({
     name: 'translatedPosts',
     initialState,
     reducers: {
+        clearPosts: (state) => {
+            state.translatedPosts = initialState.translatedPosts;
+        },
         postAdded: {
             reducer(state, action) {
                 state.translatedPosts.push(action.payload)
@@ -59,7 +62,7 @@ const translatorSlice = createSlice({
     }
 })
 
-export const { postAdded, postUpdated, reactionAdded } = translatorSlice.actions
+export const { postAdded, postUpdated, reactionAdded, clearPosts } = translatorSlice.actions
 
 export default translatorSlice.reducer
 
@@ -83,7 +86,7 @@ export const setDataToTranslate = (posts) => {
 
 export const getTranslatedPosts = (posts, data) => {
     const middleIndex = Math.floor(data.length / 2);
-    const titles = data.slice(0,middleIndex);
+    const titles = data.slice(0, middleIndex);
     const bodies = data.slice(middleIndex);
 
     return posts.map((post, index) => ({

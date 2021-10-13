@@ -8,10 +8,11 @@ import {
   selectAllTranslatedPosts,
   setDataToTranslate,
   fetchTranslated,
-  getTranslatedPosts
+  getTranslatedPosts,
+  clearPosts
 } from './../translator/translatorSlice';
 
-import {selectCurrentLanguage} from './../selectLanguage/selectLanguageSlice';
+import { selectCurrentLanguage } from './../selectLanguage/selectLanguageSlice';
 const Posts = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
@@ -19,9 +20,7 @@ const Posts = () => {
   const translatedPosts = useSelector(selectAllTranslatedPosts)
   const postStatus = useSelector(state => state.posts.status)
   const error = useSelector(state => state.posts.error);
-
   const lang = useSelector(selectCurrentLanguage);
-  console.log('lang', lang)
 
   const fetchMoreData = () => {
     // a fake async api call like which sends
@@ -39,6 +38,7 @@ const Posts = () => {
 
     if (postStatus === 'succeeded') {
       const data = setDataToTranslate(posts);
+      dispatch(clearPosts())
       dispatch(fetchTranslated({
         data: data['titles'],
         fromLanguage: 'en',
@@ -48,7 +48,7 @@ const Posts = () => {
       dispatch(fetchTranslated({
         data: data['bodies'].slice(0, middleIndex),
         fromLanguage: 'en',
-        toLanguage:lang
+        toLanguage: lang
       }));
 
       dispatch(fetchTranslated({
