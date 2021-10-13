@@ -20,6 +20,8 @@ import { selectCurrentLanguage } from './../selectLanguage/selectLanguageSlice';
  */
 const Posts = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
+  const [data, setData] = useState(null);
+  const [prevLang, setPrevLang] = useState('en')
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
   const translatedPosts = useSelector(selectAllTranslatedPosts)
@@ -36,13 +38,18 @@ const Posts = () => {
     }, 1500);
   };
   useEffect(() => {
-    const middleIndex = Math.floor(posts.length / 2);
     if (postStatus === 'idle') {
       dispatch(fetchPosts())
     }
-
     if (postStatus === 'succeeded') {
-      const data = setDataToTranslate(posts);
+      setData(setDataToTranslate(posts));
+    }
+  }, [postStatus, dispatch, posts, setData])
+
+  useEffect(() => {
+    const middleIndex = data ? Math.floor(data['titles'].length / 2) : 0;
+
+    if (postStatus === 'succeeded' && data && prevLang !==lang && lang !== 'en') {
       dispatch(clearTranslatedPosts())
       dispatch(fetchTranslated({
         data: data['titles'],
@@ -61,18 +68,20 @@ const Posts = () => {
         fromLanguage: 'en',
         toLanguage: lang
       }));
+      setPrevLang(lang)
     }
-  }, [postStatus, dispatch, lang, posts])
-
+  }, [postStatus, dispatch, lang, data])
 
   useEffect(() => {
     let translatedItems = [];
     if (posts.length * 2 === translatedPosts.length && translatedPosts.length > 0) {
       translatedItems = getTranslatedPosts(posts, translatedPosts);
+    } else if (lang === 'en') {
+      translatedItems = posts
     }
     setItems(translatedItems.slice(0, 6));
 
-  }, [setItems, translatedPosts, posts])
+  }, [setItems, translatedPosts, posts, lang])
 
   let content
 
