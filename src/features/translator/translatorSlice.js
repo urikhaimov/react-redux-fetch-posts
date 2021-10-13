@@ -88,7 +88,7 @@ export const setDataToTranslate = (posts) => {
 /**
  * Maping posts with data of objects  (fetchTranslated response) .
  * @function
- * @param {Array} posts - list of posts.
+ * @param {Array} posts -  posts list .
  * @param {Array} data - data of objects (fetchTranslated response) .
  * @return {Array} - array of posts with translated title and body.
  */
