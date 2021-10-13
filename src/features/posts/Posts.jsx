@@ -57,7 +57,7 @@ const Posts = () => {
         toLanguage: lang
       }));
     }
-  }, [postStatus, dispatch, lang])
+  }, [postStatus, dispatch, lang, posts])
 
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const Posts = () => {
         loader={<h4>Loading...</h4>}
       >
         {items.map((post, index) => (
-          <Post key={index} post={post} />
+          <Post key={index} id={post.id} />
         ))}
 
       </InfiniteScroll>
