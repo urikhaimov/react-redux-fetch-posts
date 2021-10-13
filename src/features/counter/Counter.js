@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-
 import styles from './Counter.module.css';
 
 export function Counter(props) {
@@ -9,7 +8,7 @@ export function Counter(props) {
   const increment = props.increment;
   const decrement = props.decrement;
   const dispatch = useDispatch();
- 
+
 
   return (
     <div>
@@ -36,7 +35,7 @@ export function Counter(props) {
           +
         </button>
       </div>
-     
+
     </div>
   );
 }

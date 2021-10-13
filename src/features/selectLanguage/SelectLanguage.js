@@ -17,7 +17,7 @@ export function SelectLanguage() {
   const selectedOption = options.find((e) => e.value === lan);
   const [language, setLanguage] = useState(selectedOption);
   const dispatch = useDispatch();
-  
+
   const handleChange = (selectedOption) => {
     setLanguage(selectedOption);
     dispatch(setCurrentLanguage(selectedOption.value))
