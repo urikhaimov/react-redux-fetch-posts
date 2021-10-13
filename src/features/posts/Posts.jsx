@@ -76,9 +76,11 @@ const Posts = () => {
     let translatedItems = [];
     if (posts.length * 2 === translatedPosts.length && translatedPosts.length > 0) {
       translatedItems = getTranslatedPosts(posts, translatedPosts);
-    } else if (lang === 'en') {
+    }
+    if (lang === 'en') {
       translatedItems = posts
     }
+    console.log()
     setItems(translatedItems.slice(0, 6));
 
   }, [setItems, translatedPosts, posts, lang])
