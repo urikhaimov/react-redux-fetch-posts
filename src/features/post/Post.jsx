@@ -1,8 +1,8 @@
 
 import React, { useEffect } from 'react';
-import { Counter } from '../../features/counter/Counter';
+import { Counter } from '../counter/Counter';
 import { useSelector } from 'react-redux';
-import { selectCount } from '../../features/counter/counterSlice'
+import { selectCount } from '../counter/counterSlice'
 
 import styles from './Post.module.css';
 

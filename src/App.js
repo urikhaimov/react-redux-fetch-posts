@@ -1,5 +1,5 @@
 import React from 'react';
-import  PostsList  from './components/PostsList';
+import  Posts  from './features/posts/Posts';
 import './App.css';
 
 import { SelectLanguage } from './features/selectLanguage/SelectLanguage';
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <SelectLanguage></SelectLanguage>
-       <PostsList></PostsList>
+       <Posts></Posts>
     </div>
   );
 }

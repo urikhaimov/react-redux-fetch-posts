@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllPosts, fetchPosts } from './../../features/posts/postsSlice';
-import PostExcerpt from './../Post'
+import { selectAllPosts, fetchPosts } from './postsSlice';
+import Post from './../post/Post'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {
@@ -9,10 +9,10 @@ import {
   setDataToTranslate,
   fetchTranslated,
   getTranslatedPosts
-} from '../../features/translator/translatorSlice';
+} from './../translator/translatorSlice';
 
-import {selectCurrentLanguage} from '../../features/selectLanguage/selectLanguageSlice';
-const PostsList = () => {
+import {selectCurrentLanguage} from './../selectLanguage/selectLanguageSlice';
+const Posts = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
@@ -84,7 +84,7 @@ const PostsList = () => {
         loader={<h4>Loading...</h4>}
       >
         {items.map((post, index) => (
-          <PostExcerpt key={index} post={post} />
+          <Post key={index} post={post} />
         ))}
 
       </InfiniteScroll>
@@ -100,4 +100,4 @@ const PostsList = () => {
   )
 }
 
-export default PostsList
+export default Posts
