@@ -5,6 +5,12 @@ import { reactionAdded, reactionReduced } from '../posts/postsSlice'
 import styles from './Post.module.css';
 
 
+/**
+ * Represents a post.
+ * @constructor
+ * @param {Object} post - single post.
+ */
+
 const Post = ({ post }) => {
     return (
         <article className={styles.post} key={post.id}>

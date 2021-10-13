@@ -13,6 +13,11 @@ import {
 } from './../translator/translatorSlice';
 
 import { selectCurrentLanguage } from './../selectLanguage/selectLanguageSlice';
+
+/**
+ * Represents list of posts.
+ * @constructor
+ */
 const Posts = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
   const dispatch = useDispatch();
