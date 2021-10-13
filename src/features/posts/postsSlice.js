@@ -94,5 +94,15 @@ export default postsSlice.reducer
 
 export const selectAllPosts = state => state.posts.posts
 
+// export const selectOrderedPosts = state => {
+//   setTimeout(() => {
+//     return state.posts.posts.slice().sort((a,b) =>
+//     (a.reactions['rate'] > b.reactions['rate']) ? -1 : ((b.reactions['rate'] > a.reactions['rate']) ? 1 : 0))
+   
+//   }, 3000);
+ 
+// }
+
+
 export const selectPostById = (state, postId) =>
   state.posts.posts.find(post => post.id === postId)
