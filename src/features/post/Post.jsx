@@ -7,7 +7,7 @@ import styles from './Post.module.css';
 
 /**
  * Represents a post.
- * @constructor
+ * @function
  * @param {Object} post - single post.
  */
 

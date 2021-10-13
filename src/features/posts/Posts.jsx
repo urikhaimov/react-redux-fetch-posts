@@ -9,7 +9,7 @@ import {
   setDataToTranslate,
   fetchTranslated,
   getTranslatedPosts,
-  clearPosts
+  clearTranslatedPosts
 } from './../translator/translatorSlice';
 
 import { selectCurrentLanguage } from './../selectLanguage/selectLanguageSlice';
@@ -43,7 +43,7 @@ const Posts = () => {
 
     if (postStatus === 'succeeded') {
       const data = setDataToTranslate(posts);
-      dispatch(clearPosts())
+      dispatch(clearTranslatedPosts())
       dispatch(fetchTranslated({
         data: data['titles'],
         fromLanguage: 'en',
@@ -86,8 +86,8 @@ const Posts = () => {
         dataLength={items.length}
         next={fetchMoreData}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
-      >
+        loader={<h4>Loading...</h4>}>
+
         {items.map((post, index) => (
           <Post key={index} post={post} />
         ))}

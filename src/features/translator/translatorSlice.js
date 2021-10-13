@@ -30,7 +30,7 @@ const translatorSlice = createSlice({
         // which detects changes to a "draft state" and produces a brand new
         // immutable state based off those changes;
 
-        clearPosts: (state) => {
+        clearTranslatedPosts: (state) => {
             state.translatedPosts = initialState.translatedPosts;
         },
         postAdded: {
@@ -58,7 +58,7 @@ const translatorSlice = createSlice({
     }
 })
 
-export const { postAdded, postUpdated, reactionAdded, clearPosts } = translatorSlice.actions
+export const { postAdded, postUpdated, reactionAdded, clearTranslatedPosts } = translatorSlice.actions
 
 export default translatorSlice.reducer
 
