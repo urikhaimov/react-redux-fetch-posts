@@ -86,10 +86,10 @@ export const setDataToTranslate = (posts) => {
 }
 
 /**
- * Maping posts with data of objects (response of fetchTranslated) .
+ * Maping posts with data of objects  (fetchTranslated response) .
  * @function
  * @param {Array} posts - list of posts.
- * @param {Array} data - data of objects (response of fetchTranslated) ..
+ * @param {Array} data - data of objects (fetchTranslated response) .
  * @return {Array} - array of posts with translated title and body.
  */
 export const getTranslatedPosts = (posts, data) => {
