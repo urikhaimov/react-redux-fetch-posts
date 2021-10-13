@@ -70,7 +70,7 @@ const Posts = () => {
       }));
       setPrevLang(lang)
     }
-  }, [postStatus, dispatch, lang, data])
+  }, [postStatus, dispatch, lang, data, prevLang])
 
   useEffect(() => {
     let translatedItems = [];
