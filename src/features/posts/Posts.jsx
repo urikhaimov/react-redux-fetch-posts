@@ -16,7 +16,7 @@ import { selectCurrentLanguage } from './../selectLanguage/selectLanguageSlice';
 
 /**
  * Represents list of posts.
- * @constructor
+ * @function
  */
 const Posts = () => {
   const [items, setItems] = useState(Array.from({ length: 20 }))
@@ -49,7 +49,7 @@ const Posts = () => {
   useEffect(() => {
     const middleIndex = data ? Math.floor(data['titles'].length / 2) : 0;
 
-    if (postStatus === 'succeeded' && data && prevLang !==lang && lang !== 'en') {
+    if (postStatus === 'succeeded' && data && prevLang !== lang && lang !== 'en') {
       dispatch(clearTranslatedPosts())
       dispatch(fetchTranslated({
         data: data['titles'],

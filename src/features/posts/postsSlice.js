@@ -98,9 +98,9 @@ export const selectAllPosts = state => state.posts.posts
 //   setTimeout(() => {
 //     return state.posts.posts.slice().sort((a,b) =>
 //     (a.reactions['rate'] > b.reactions['rate']) ? -1 : ((b.reactions['rate'] > a.reactions['rate']) ? 1 : 0))
-   
+
 //   }, 3000);
- 
+
 // }
 
 
