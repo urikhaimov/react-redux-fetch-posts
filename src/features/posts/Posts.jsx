@@ -80,7 +80,6 @@ const Posts = () => {
     if (lang === 'en') {
       translatedItems = posts
     }
-    console.log()
     setItems(translatedItems.slice(0, 6));
 
   }, [setItems, translatedPosts, posts, lang])
