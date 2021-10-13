@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { Counter } from '../counter/Counter';
-import { useSelector } from 'react-redux';
-import { selectPostById, reactionAdded, reactionReduced } from '../posts/postsSlice'
+import { reactionAdded, reactionReduced } from '../posts/postsSlice'
 import styles from './Post.module.css';
 
 
