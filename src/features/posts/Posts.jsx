@@ -84,7 +84,7 @@ const Posts = () => {
         loader={<h4>Loading...</h4>}
       >
         {items.map((post, index) => (
-          <Post key={index} id={post.id} />
+          <Post key={index} post={post} />
         ))}
 
       </InfiniteScroll>

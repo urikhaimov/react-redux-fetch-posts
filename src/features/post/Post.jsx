@@ -6,8 +6,7 @@ import { selectPostById, reactionAdded, reactionReduced } from '../posts/postsSl
 import styles from './Post.module.css';
 
 
-const Post = ({ id }) => {
-    const post = useSelector((state) => selectPostById(state, id));
+const Post = ({ post }) => {
     return (
         <article className={styles.post} key={post.id}>
             <h3>{post.title}</h3>

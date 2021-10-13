@@ -67,7 +67,12 @@ export default translatorSlice.reducer
 // in the slice file. For example: `useSelector((state: RootState) => state.translatedPosts.translatedPosts)`
 export const selectAllTranslatedPosts = state => state.translatedPosts.translatedPosts
 
-
+/**
+ * Convert posts to data of objects prepared to request fetchTranslated .
+ * @function
+ * @param {Array} posts - list of posts.
+ * @return {Array} - array of objects {text: {string}}.
+ */
 export const setDataToTranslate = (posts) => {
     let data = {
         'titles': [],
@@ -80,7 +85,13 @@ export const setDataToTranslate = (posts) => {
     return data;
 }
 
-
+/**
+ * Maping posts with data of objects (response of fetchTranslated) .
+ * @function
+ * @param {Array} posts - list of posts.
+ * @param {Array} data - data of objects (response of fetchTranslated) ..
+ * @return {Array} - array of posts with translated title and body.
+ */
 export const getTranslatedPosts = (posts, data) => {
     const middleIndex = Math.floor(data.length / 2);
     const titles = data.slice(0, middleIndex);
